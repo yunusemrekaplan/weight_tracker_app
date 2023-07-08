@@ -13,17 +13,20 @@ class RecordListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: _buildCardShape(),
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
         child: ListTile(
-          leading: _buildDate(),
-          title: _buildWeight(),
+          title: _buildDateAndWeight(),
           trailing: _buildIconButtons(),
         ),
       ),
+    );
+  }
+
+  RoundedRectangleBorder _buildCardShape() {
+    return RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
     );
   }
 
@@ -31,25 +34,60 @@ class RecordListTile extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: null,
-          color: Colors.grey,
-        ),
-        IconButton(
-          icon: Icon(Icons.delete),
-          onPressed: () => _controller.deleteRecord(record),
-          color: Colors.red,
-        ),
+        _buildEditIconButton(),
+        _buildDeleteIconButton(),
       ],
     );
   }
 
-  Center _buildWeight() => Center(
-          child: Text(
-        record.weight.toString(),
-        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      ));
+  IconButton _buildDeleteIconButton() {
+    return IconButton(
+      icon: const Icon(Icons.delete),
+      onPressed: () => _controller.deleteRecord(record),
+      color: Colors.red,
+    );
+  }
 
-  Text _buildDate() => Text(DateFormat('EEE MMM d').format(record.dateTime));
+  IconButton _buildEditIconButton() {
+    return const IconButton(
+      icon: Icon(Icons.edit),
+      onPressed: null,
+      color: Colors.grey,
+    );
+  }
+
+  Row _buildDateAndWeight() {
+    return Row(
+      children: [
+        _buildDate(),
+        _buildWeight(),
+      ],
+    );
+  }
+
+  Flexible _buildWeight() {
+    return Flexible(
+      flex: 1,
+      fit: FlexFit.tight,
+      child: Text(
+        record.weight.toString(),
+        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  SizedBox _buildDate() {
+    return SizedBox(
+      height: 40,
+      width: 110,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          DateFormat('EEE MMM d').format(record.dateTime),
+          style: const TextStyle(fontSize: 19),
+        ),
+      ),
+    );
+  }
 }

@@ -24,7 +24,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
           title: const Text('History'),
           actions: [
             IconButton(
-              onPressed: _controller.addRecord,
+              onPressed: () => _controller.addRecord(Record(
+                  dateTime: DateTime.now(),
+                  weight: 70,
+                  photoUrl: '',
+                  note: 'XXXXX')),
               icon: Icon(Icons.add),
             ),
           ],

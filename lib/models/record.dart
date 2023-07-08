@@ -1,12 +1,29 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+class Record {
+  late int id;
+  late DateTime dateTime;
+  late int weight;
+  late String? photoUrl;
+  late String? note;
 
-part 'record.freezed.dart';
-part 'record.g.dart';
+  Record({required this.dateTime, required this.weight, this.photoUrl, this.note});
 
-@freezed
-class Record with _$Record {
+  Record.fromMap(Map<String, dynamic> data) {
+    assert(data['id'] != null);
+    assert(data['dateTime'] != null);
+    assert(data['weight'] != null);
+    id = data['id'];
+    dateTime = DateTime.parse(data['dateTime']);
+    weight = data['weight'];
+    photoUrl = data['photoUrl'];
+    note = data['note'];
+  }
 
-  factory Record({required DateTime dateTime, required int weight, String? photoUrl, String? note}) = _Record;
-
-  factory Record.fromJson(Map<String, dynamic> json) => _$RecordFromJson(json);
+  Map<String, dynamic> toMap() {
+    return {
+      'dateTime' : dateTime.toIso8601String(),
+      'weight' : weight,
+      'photoUrl' : photoUrl,
+      'note' : note,
+    };
+  }
 }
