@@ -3,12 +3,14 @@ import 'package:weight_tracker_app/models/record.dart';
 import 'package:weight_tracker_app/view-models/record_controller.dart';
 
 class Controller extends GetxController {
-
   final RecordController _recordController = RecordController.instance;
-  late var records = <Record>[].obs;
+  late RxList<Record> records;
 
-  Controller() {
-    getAllRecords().then((value) => records = value.obs);
+  @override
+  void onInit() {
+    super.onInit();
+    records = <Record>[].obs;
+    getAllRecords().then((value) => records.value = value);
   }
 
   Future<List<Record>> getAllRecords() async {
@@ -17,20 +19,9 @@ class Controller extends GetxController {
 
   void addRecord(Record record) async {
     await _recordController.addRecord(record);
-    late Record temp;
-    await getLastRecord().then((value) {
-      temp = value;
-    });
+    Record temp = await getLastRecord();
     records.add(temp);
-    for(int i=1; i<records.length; i++) {
-      for(int j=0; j<records.length-i; j++) {
-        if(records[j].dateTime.isAfter(records[j+1].dateTime)) {
-          var temp = records[j+1];
-          records[j+1] = records[j];
-          records[j] = temp;
-        }
-      }
-    }
+    records.sort((a, b) => a.dateTime.compareTo(b.dateTime));
   }
 
   deleteRecord(Record record) async {
@@ -40,12 +31,13 @@ class Controller extends GetxController {
 
   updateRecord(Record record) async {
     await _recordController.updateRecord(record);
-    /*for(var i in records.obs.value) {
-      if(i.id == record.id) {
-        i = record;
-        break;
-      }
-    }*/
+    int index = records.indexWhere((r) => r.id == record.id);
+    if (index != -1) {
+      records[index] = record;
+      print("bulundu");
+      print(record.weight);
+      print(records[index].weight);
+    }
   }
 
   getRecordById(Record record) async {
