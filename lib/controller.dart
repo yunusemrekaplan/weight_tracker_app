@@ -4,23 +4,6 @@ import 'package:weight_tracker_app/view-models/record_controller.dart';
 
 class Controller extends GetxController {
 
-  /*var records = <Record>[
-    *//*Record(dateTime: DateTime.now(), weight: 80, note: 'AAA'),
-    Record(dateTime: DateTime.now(), weight: 81, note: 'BBB'),
-    Record(dateTime: DateTime.now(), weight: 82, note: 'CCC'),
-    Record(dateTime: DateTime.now(), weight: 83, note: 'DDD'),*//*
-  ].obs;
-
-  void addRecord() {
-    records.add(Record(id: 1, dateTime: DateTime.now(), weight: 70, note: 'XXXXX'));
-  }
-
-  void deleteRecord(Record record) {
-    records.remove(record);
-  }
-  */
-
-
   final RecordController _recordController = RecordController.instance;
   late var records = <Record>[].obs;
 
@@ -33,20 +16,40 @@ class Controller extends GetxController {
   }
 
   void addRecord(Record record) async {
-    print('addRecord');
-    //await _recordController.addRecord(Record(dateTime: DateTime.now(), weight: 70, photoUrl: '', note: 'XXXXX'));
     await _recordController.addRecord(record);
     late Record temp;
     await getLastRecord().then((value) {
       temp = value;
     });
     records.add(temp);
-    print(records.length.toString());
+    for(int i=1; i<records.length; i++) {
+      for(int j=0; j<records.length-i; j++) {
+        if(records[j].dateTime.isAfter(records[j+1].dateTime)) {
+          var temp = records[j+1];
+          records[j+1] = records[j];
+          records[j] = temp;
+        }
+      }
+    }
   }
 
   deleteRecord(Record record) async {
     await _recordController.deleteRecord(record.id);
     records.remove(record);
+  }
+
+  updateRecord(Record record) async {
+    await _recordController.updateRecord(record);
+    /*for(var i in records.obs.value) {
+      if(i.id == record.id) {
+        i = record;
+        break;
+      }
+    }*/
+  }
+
+  getRecordById(Record record) async {
+    return await _recordController.getRecordById(record);
   }
 
   Future<Record> getLastRecord() async {

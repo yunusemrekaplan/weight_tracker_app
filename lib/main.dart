@@ -5,7 +5,7 @@ import 'package:weight_tracker_app/views/home.dart';
 
 void main() {
 
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
   runApp(const MyApp());
 }
@@ -19,11 +19,12 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Weight Tracker',
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
         ),
       ),
-      home: Home(),
+      home: Home(currentScreen: 0,),
+      getPages: [],
     );
   }
 }

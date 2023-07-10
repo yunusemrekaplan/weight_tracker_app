@@ -58,6 +58,30 @@ class RecordController {
     );
   }
 
+  Future<void> updateRecord(Record record) async {
+    final db = await RecordController.instance.database;
+    await db.update(
+      'Records',
+      record.toMap(),
+      where: 'id = ?',
+      whereArgs: [record.id],
+    );
+  }
+
+  Future<Record?> getRecordById(Record record) async {
+    final db = await RecordController.instance.database;
+    final result = await db.query(
+      'Records',
+      where: 'id = ?',
+      whereArgs: [record.id],
+    );
+    if (result.isNotEmpty) {
+      return Record.fromMap(result.first);
+    } else {
+      return null;
+    }
+  }
+
   Future<List<Record>> getAllRecords() async {
     final db = await instance.database;
     const orderBy = 'dateTime DESC';

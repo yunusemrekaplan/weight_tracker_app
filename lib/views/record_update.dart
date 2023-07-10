@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, no_logic_in_create_state
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -5,26 +7,32 @@ import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:weight_tracker_app/controller.dart';
 import 'package:weight_tracker_app/models/record.dart';
+import 'package:weight_tracker_app/views/history.dart';
+import 'package:weight_tracker_app/views/home.dart';
 
-class AddRecordView extends StatefulWidget {
-  const AddRecordView({Key? key}) : super(key: key);
+class RecordUpdateScreen extends StatefulWidget {
+  late Record record;
+  RecordUpdateScreen({Key? key, required this.record}) : super(key: key);
 
   @override
-  State<AddRecordView> createState() => _AddRecordViewState();
+  State<RecordUpdateScreen> createState() => _RecordUpdateScreenState(record: record.obs.value);
 }
 
-class _AddRecordViewState extends State<AddRecordView> {
-  int _selectedValue = 70;
-  DateTime _selectedDate = DateTime.now();
+class _RecordUpdateScreenState extends State<RecordUpdateScreen> {
+  late Record record;
 
-  TextEditingController noteController = TextEditingController();
+  _RecordUpdateScreenState({required  this.record});
+
   final Controller _controller = Get.find();
+  TextEditingController noteController = TextEditingController();
+  late int _selectedValue = record.weight;
+  late DateTime _selectedDate = record.dateTime;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add New Record'),
+        title: const Text('Record Info'),
         centerTitle: true,
       ),
       body: _buildBody(),
@@ -45,7 +53,11 @@ class _AddRecordViewState extends State<AddRecordView> {
   ElevatedButton _buildSaveButton() {
     return ElevatedButton(
       onPressed: () async {
-        _controller.addRecord(Record(dateTime: _selectedDate, weight: _selectedValue, note: noteController.text));
+        record.weight = _selectedValue;
+        record.dateTime = _selectedDate;
+        record.note = noteController.text;
+
+        _controller.updateRecord(record);
         Get.close(0);
       },
       style: ElevatedButton.styleFrom(
@@ -86,8 +98,9 @@ class _AddRecordViewState extends State<AddRecordView> {
           style: const TextStyle(
             fontSize: 20.0,
           ),
-          decoration: const InputDecoration(
-            hintText: 'Note',
+          decoration: InputDecoration(
+            //hintText: _hintText,
+            hintText: (record.note != null) ? record.note : 'Note',
             border: InputBorder.none,
           ),
           controller: noteController,
@@ -256,4 +269,5 @@ class _AddRecordViewState extends State<AddRecordView> {
       border: Border.all(color: Colors.grey),
     );
   }
+
 }

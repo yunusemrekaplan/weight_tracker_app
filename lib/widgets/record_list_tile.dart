@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:weight_tracker_app/controller.dart';
 import 'package:weight_tracker_app/models/record.dart';
+import 'package:weight_tracker_app/views/record_update.dart';
 
 class RecordListTile extends StatelessWidget {
   final Record record;
@@ -49,9 +50,9 @@ class RecordListTile extends StatelessWidget {
   }
 
   IconButton _buildEditIconButton() {
-    return const IconButton(
-      icon: Icon(Icons.edit),
-      onPressed: null,
+    return IconButton(
+      icon: const Icon(Icons.edit),
+      onPressed: () => Get.to(RecordUpdateScreen(record: record)),
       color: Colors.grey,
     );
   }
