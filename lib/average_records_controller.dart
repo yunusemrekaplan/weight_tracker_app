@@ -110,6 +110,8 @@ class AverageRecordsController extends GetxController {
   }
 
   double getWeightAverage(List<Record> records) {
+    if (records.isEmpty) return 0;
+
     double sum = 0;
     for (var record in records) {
       sum += record.weight;

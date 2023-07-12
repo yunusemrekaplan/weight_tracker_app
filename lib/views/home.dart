@@ -3,9 +3,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:weight_tracker_app/average_records_controller.dart';
 import 'package:weight_tracker_app/view-models/controller.dart';
-import 'package:weight_tracker_app/views/add_record.dart';
 import 'package:weight_tracker_app/views/graph.dart';
 import 'package:weight_tracker_app/views/history.dart';
 
@@ -22,20 +20,8 @@ class _HomeState extends State<Home> {
   int currentScreen = 0;
   int _currentTab = 0;
 
-  final Controller _controller = Get.find();
-  final AverageRecordsController _averageRecordsController = Get.find();
-
-  @override
-  void initState() {
-    _averageRecordsController.build();
-    print('home _averageRecordsController.records.length');
-    print(_averageRecordsController.records.length);
-    print(_averageRecordsController.monthlyAverage);
-    super.initState();
-  }
-
   _HomeState({required this.currentScreen}) {
-    if(currentScreen == 1) {
+    if (currentScreen == 1) {
       _currentScreen = const HistoryScreen();
       _currentTab = 1;
     }
@@ -47,20 +33,11 @@ class _HomeState extends State<Home> {
     Icons.history,
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //appBar: AppBar(title: const Text('Track Your Weight'),),
       body: _currentScreen,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.grey,
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Get.to( () => const AddRecordView());
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
         height: Get.height / 12,
         activeColor: Colors.black,
@@ -74,11 +51,14 @@ class _HomeState extends State<Home> {
         leftCornerRadius: 32,
         rightCornerRadius: 32,
         onTap: (index) {
-          setState(() {
-            _currentTab = index;
-            _currentScreen = (index == 0) ? const GraphScreen() : const HistoryScreen();
-          });
-        }
+          setState(
+            () {
+              _currentTab = index;
+              _currentScreen =
+                  (index == 0) ? const GraphScreen() : const HistoryScreen();
+            },
+          );
+        },
       ),
     );
   }

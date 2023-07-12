@@ -13,73 +13,62 @@ class GraphScreen extends StatefulWidget {
 }
 
 class _GraphScreenState extends State<GraphScreen> {
-  final Controller _controller = Get.find();
   final AverageRecordsController _averageRecordsController = Get.find();
 
   @override
   void initState() {
     _averageRecordsController.build();
-    print('graph _averageRecordsController.records.length');
-    print(_averageRecordsController.records.length);
-    print(_averageRecordsController.monthlyAverage.values);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Graph'),
       ),
       body: Obx(
-          () => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(_averageRecordsController.monthlyAverage.values.toString()),
-              SizedBox(
-                height: 300,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: SfCartesianChart(
-                    primaryXAxis: CategoryAxis(),
-                    series: <ChartSeries>[
-                      LineSeries<ChartData, String>(
-                          dataSource: _buildChartDataList(),
-                          xValueMapper: (ChartData data, _) => data.x,
-                          yValueMapper: (ChartData data, _) => data.y),
-                    ],
-                  ),
+        () => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: 300,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: SfCartesianChart(
+                  primaryXAxis: CategoryAxis(),
+                  series: <ChartSeries>[
+                    LineSeries<ChartData, String>(
+                        dataSource: _buildChartDataList(),
+                        xValueMapper: (ChartData data, _) => data.x,
+                        yValueMapper: (ChartData data, _) => data.y),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-
-
   List<ChartData> _buildChartDataList() {
     List<ChartData> list = <ChartData>[];
+    List<String> keys = <String>[];
+    List<double> values = <double>[];
 
-    //list.add(ChartData(key, value))
-    return [
-      // Bind data source
-      ChartData('Jan', 35),
-      ChartData('Feb', 28),
-      ChartData('Mar', 34),
-      ChartData('Apr', 32),
-      ChartData('May', 40),
-      ChartData('Jun', 40),
-      ChartData('Jul', 40),
-      ChartData('Aug', 40),
-      ChartData('Sep', 40),
-      ChartData('Oct', 40),
-      ChartData('Nov', 40),
-      ChartData('Dec', 40),
-    ];
+    for (var key in _averageRecordsController.monthlyAverage.keys) {
+      keys.add(key);
+    }
+    for (var value in _averageRecordsController.monthlyAverage.values) {
+      values.add(value ?? 0);
+    }
+    for (int i = 0; i < 12; i++) {
+      list.add(ChartData(keys[i], values[i]));
+    }
+
+    return list;
   }
 }
 

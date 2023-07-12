@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weight_tracker_app/average_records_controller.dart';
 import 'package:weight_tracker_app/view-models/controller.dart';
+import 'package:weight_tracker_app/views/add_record.dart';
 import 'package:weight_tracker_app/widgets/record_list_tile.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -37,6 +38,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
         appBar: AppBar(
           centerTitle: true,
           title: const Text('History'),
+          actions: [
+            IconButton(onPressed: () => Get.to(() => const AddRecordView()), icon: const Icon(Icons.add)),
+          ],
         ),
         body: _controller.records.isEmpty ? _buildEmptyHistory() : _buildBody(),
       ),
