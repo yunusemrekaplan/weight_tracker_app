@@ -17,34 +17,44 @@ class _GraphScreenState extends State<GraphScreen> {
   final AverageRecordsController _averageRecordsController = Get.find();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    _averageRecordsController.build();
     print('graph _averageRecordsController.records.length');
     print(_averageRecordsController.records.length);
+    print(_averageRecordsController.monthlyAverage.values);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Graph'),
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: 300,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: SfCartesianChart(
-                primaryXAxis: CategoryAxis(),
-                series: <ChartSeries>[
-                  LineSeries<ChartData, String>(
-                      dataSource: _buildChartDataList(),
-                      xValueMapper: (ChartData data, _) => data.x,
-                      yValueMapper: (ChartData data, _) => data.y),
-                ],
+      body: Obx(
+          () => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(_averageRecordsController.monthlyAverage.values.toString()),
+              SizedBox(
+                height: 300,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: SfCartesianChart(
+                    primaryXAxis: CategoryAxis(),
+                    series: <ChartSeries>[
+                      LineSeries<ChartData, String>(
+                          dataSource: _buildChartDataList(),
+                          xValueMapper: (ChartData data, _) => data.x,
+                          yValueMapper: (ChartData data, _) => data.y),
+                    ],
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ],
       ),
     );
   }

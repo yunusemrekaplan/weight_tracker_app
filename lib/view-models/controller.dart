@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:weight_tracker_app/average_records_controller.dart';
 import 'package:weight_tracker_app/models/record.dart';
 import 'package:weight_tracker_app/view-models/db_controller.dart';
 
@@ -11,12 +12,9 @@ class Controller extends GetxController {
     super.onInit();
     records = <Record>[].obs;
     getAllRecords().then((value) => records.value = value);
-    print('onInit records');
-    print(records);
   }
 
   Future<List<Record>> getAllRecords() async {
-    print('get records');
     return _dbController.getAllRecords();
   }
 

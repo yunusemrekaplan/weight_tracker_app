@@ -18,7 +18,7 @@ class AverageRecordsController extends GetxController {
   late List<Record> octRecords;
   late List<Record> novRecords;
   late List<Record> decRecords;
-  late Map<String, double?> monthlyAverage;
+  late RxMap<String, double?> monthlyAverage;
   late double sumAverage;
 
   static AverageRecordsController instance = AverageRecordsController._internal();
@@ -27,14 +27,12 @@ class AverageRecordsController extends GetxController {
     return instance;
   }
 
-  AverageRecordsController._internal();
+  AverageRecordsController._internal() {
+    build();
+  }
 
   void build() {
-    print('_controller.records');
-    print(_controller.records);
     records = <Record>[].obs;
-    print('records.length');
-    print(records.length);
     records = _controller.records;
     _controller.getAllRecords().then((value) => records.value = value);
 
@@ -107,9 +105,8 @@ class AverageRecordsController extends GetxController {
       'Oct': getWeightAverage(octRecords),
       'Nov': getWeightAverage(novRecords),
       'Dec': getWeightAverage(decRecords),
-    };
-    print('julrecords');
-    print(getWeightAverage(julRecords));
+    }.obs;
+    print(monthlyAverage);
   }
 
   double getWeightAverage(List<Record> records) {

@@ -3,6 +3,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:weight_tracker_app/average_records_controller.dart';
 import 'package:weight_tracker_app/view-models/controller.dart';
 import 'package:weight_tracker_app/views/add_record.dart';
 import 'package:weight_tracker_app/views/graph.dart';
@@ -20,6 +21,18 @@ class _HomeState extends State<Home> {
   Widget _currentScreen = const GraphScreen();
   int currentScreen = 0;
   int _currentTab = 0;
+
+  final Controller _controller = Get.find();
+  final AverageRecordsController _averageRecordsController = Get.find();
+
+  @override
+  void initState() {
+    _averageRecordsController.build();
+    print('home _averageRecordsController.records.length');
+    print(_averageRecordsController.records.length);
+    print(_averageRecordsController.monthlyAverage);
+    super.initState();
+  }
 
   _HomeState({required this.currentScreen}) {
     if(currentScreen == 1) {

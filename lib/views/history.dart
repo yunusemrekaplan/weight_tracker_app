@@ -13,7 +13,7 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   final Controller _controller = Get.find();
-  final AverageRecordsController _averageRecordsController = Get.find();
+  //final AverageRecordsController _averageRecordsController = Get.find();
 
 
   @override
