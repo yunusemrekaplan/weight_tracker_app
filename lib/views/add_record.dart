@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:weight_tracker_app/controller.dart';
+import 'package:weight_tracker_app/view-models/controller.dart';
 import 'package:weight_tracker_app/models/record.dart';
 
 class AddRecordView extends StatefulWidget {
@@ -14,7 +14,7 @@ class AddRecordView extends StatefulWidget {
 }
 
 class _AddRecordViewState extends State<AddRecordView> {
-  int _selectedValue = 70;
+  double _selectedValue = 70;
   DateTime _selectedDate = DateTime.now();
 
   TextEditingController noteController = TextEditingController();
@@ -45,7 +45,12 @@ class _AddRecordViewState extends State<AddRecordView> {
   ElevatedButton _buildSaveButton() {
     return ElevatedButton(
       onPressed: () async {
-        _controller.addRecord(Record(dateTime: _selectedDate, weight: _selectedValue, note: noteController.text));
+        _controller.addRecord(
+          Record(
+              dateTime: _selectedDate,
+              weight: _selectedValue,
+              note: noteController.text),
+        );
         Get.close(0);
       },
       style: ElevatedButton.styleFrom(
@@ -198,16 +203,10 @@ class _AddRecordViewState extends State<AddRecordView> {
 
   Row _buildWeightRow() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         buildWeightScaleIcon(),
-        Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            _buildWeightPicker(),
-            _buildChevronUpIcon(),
-          ],
-        ),
+        _buildWeightPicker(),
       ],
     );
   }
@@ -219,41 +218,36 @@ class _AddRecordViewState extends State<AddRecordView> {
     );
   }
 
-  Icon _buildChevronUpIcon() {
-    return const Icon(
-      FontAwesomeIcons.chevronUp,
-      size: 16,
-    );
-  }
-
   RoundedRectangleBorder _buildCardShape() {
     return RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(16),
     );
   }
 
-  NumberPicker _buildWeightPicker() {
-    return NumberPicker(
-      axis: Axis.horizontal,
-      //itemCount: 3,
-      //itemWidth: 70,
-      step: 1,
+  DecimalNumberPicker _buildWeightPicker() {
+    return DecimalNumberPicker(
+      //axis: Axis.horizontal,
+      itemCount: 1,
+      itemWidth: 35,
       minValue: 20,
       maxValue: 180,
+      decimalPlaces: 1,
       value: _selectedValue,
       onChanged: (value) {
         setState(() {
           _selectedValue = value;
         });
       },
-      decoration: _buildWeightPickerDecoration(),
+      integerDecoration: _buildWeightPickerDecoration(),
+      decimalDecoration: _buildWeightPickerDecoration(),
+      selectedTextStyle: const TextStyle(color: Colors.blue, fontSize: 22),
     );
   }
 
   BoxDecoration _buildWeightPickerDecoration() {
     return BoxDecoration(
       borderRadius: BorderRadius.circular(8),
-      border: Border.all(color: Colors.grey),
+      border: Border.all(color: Colors.grey, width: 0.4),
     );
   }
 }

@@ -4,11 +4,11 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:weight_tracker_app/models/record.dart';
 
-class RecordController {
-  static final RecordController instance = RecordController._init();
+class DBController {
+  static final DBController instance = DBController._init();
   static Database? _database;
 
-  RecordController._init();
+  DBController._init();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -59,7 +59,7 @@ class RecordController {
   }
 
   Future<void> updateRecord(Record record) async {
-    final db = await RecordController.instance.database;
+    final db = await DBController.instance.database;
     await db.update(
       'Records',
       record.toMap(),
@@ -69,7 +69,7 @@ class RecordController {
   }
 
   Future<Record?> getRecordById(Record record) async {
-    final db = await RecordController.instance.database;
+    final db = await DBController.instance.database;
     final result = await db.query(
       'Records',
       where: 'id = ?',

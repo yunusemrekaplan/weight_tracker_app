@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:weight_tracker_app/controller.dart';
+import 'package:weight_tracker_app/view-models/controller.dart';
 import 'package:weight_tracker_app/models/record.dart';
 import 'package:weight_tracker_app/views/history.dart';
 import 'package:weight_tracker_app/views/home.dart';
@@ -25,7 +25,7 @@ class _RecordUpdateScreenState extends State<RecordUpdateScreen> {
 
   final Controller _controller = Get.find();
   TextEditingController noteController = TextEditingController();
-  late int _selectedValue = record.weight;
+  late double _selectedValue = record.weight;
   late DateTime _selectedDate = record.dateTime;
 
   @override
@@ -245,12 +245,12 @@ class _RecordUpdateScreenState extends State<RecordUpdateScreen> {
     );
   }
 
-  NumberPicker _buildWeightPicker() {
-    return NumberPicker(
+  DecimalNumberPicker _buildWeightPicker() {
+    return DecimalNumberPicker(
       axis: Axis.horizontal,
       //itemCount: 3,
       //itemWidth: 70,
-      step: 1,
+      //step: 1,
       minValue: 20,
       maxValue: 180,
       value: _selectedValue,
@@ -259,7 +259,7 @@ class _RecordUpdateScreenState extends State<RecordUpdateScreen> {
           _selectedValue = value;
         });
       },
-      decoration: _buildWeightPickerDecoration(),
+      //decoration: _buildWeightPickerDecoration(),
     );
   }
 

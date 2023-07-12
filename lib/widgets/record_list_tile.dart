@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
-import 'package:weight_tracker_app/controller.dart';
+import 'package:weight_tracker_app/view-models/controller.dart';
 import 'package:weight_tracker_app/models/record.dart';
 import 'package:weight_tracker_app/views/record_update.dart';
 
@@ -67,11 +67,14 @@ class RecordListTile extends StatelessWidget {
   }
 
   Flexible _buildWeight() {
+    String temp = record.weight.toString();
     return Flexible(
       flex: 1,
       fit: FlexFit.tight,
       child: Text(
-        record.weight.toString(),
+        //15.5.toString(),
+        //record.weight.toString(),
+        temp,
         style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       ),

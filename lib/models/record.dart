@@ -1,7 +1,7 @@
 class Record {
   late int id;
   late DateTime dateTime;
-  late int weight;
+  late double weight;
   late String? photoUrl;
   late String? note;
 
@@ -13,7 +13,7 @@ class Record {
     assert(data['weight'] != null);
     id = data['id'];
     dateTime = DateTime.parse(data['dateTime']);
-    weight = data['weight'];
+    weight = data['weight'].toDouble();
     photoUrl = data['photoUrl'];
     note = data['note'];
   }

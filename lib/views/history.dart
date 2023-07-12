@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:weight_tracker_app/controller.dart';
+import 'package:weight_tracker_app/average_records_controller.dart';
+import 'package:weight_tracker_app/view-models/controller.dart';
 import 'package:weight_tracker_app/widgets/record_list_tile.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -12,7 +13,8 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   final Controller _controller = Get.find();
-  //List<Record> records = <Record>[];
+  final AverageRecordsController _averageRecordsController = Get.find();
+
 
   @override
   void initState() {
