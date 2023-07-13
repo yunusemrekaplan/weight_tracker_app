@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
       Get.put(AverageRecordsController.instance);
 
   final Future<dynamic> _calculation = Future<dynamic>.delayed(
-    const Duration(seconds: 1),
-    () => Get.to(Home(currentScreen: 0)),
+    const Duration(milliseconds: 1700),
+    () => Get.off(Home(currentScreen: 0)),//Get.to(Home(currentScreen: 0)),
   );
 
   @override

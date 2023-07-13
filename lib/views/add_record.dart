@@ -47,9 +47,10 @@ class _AddRecordViewState extends State<AddRecordView> {
       onPressed: () async {
         _controller.addRecord(
           Record(
-              dateTime: _selectedDate,
-              weight: _selectedValue,
-              note: noteController.text),
+            dateTime: _selectedDate,
+            weight: _selectedValue,
+            note: noteController.text,
+          ),
         );
         Get.close(0);
       },
@@ -203,10 +204,11 @@ class _AddRecordViewState extends State<AddRecordView> {
 
   Row _buildWeightRow() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         buildWeightScaleIcon(),
         _buildWeightPicker(),
+        const Center(),
       ],
     );
   }
@@ -226,12 +228,10 @@ class _AddRecordViewState extends State<AddRecordView> {
 
   DecimalNumberPicker _buildWeightPicker() {
     return DecimalNumberPicker(
-      //axis: Axis.horizontal,
-      itemCount: 1,
-      itemWidth: 35,
+      itemHeight: 35,
+      itemWidth: 45,
       minValue: 20,
       maxValue: 180,
-      decimalPlaces: 1,
       value: _selectedValue,
       onChanged: (value) {
         setState(() {

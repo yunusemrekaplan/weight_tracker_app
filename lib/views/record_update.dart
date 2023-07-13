@@ -7,8 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:weight_tracker_app/view-models/controller.dart';
 import 'package:weight_tracker_app/models/record.dart';
-import 'package:weight_tracker_app/views/history.dart';
-import 'package:weight_tracker_app/views/home.dart';
 
 class RecordUpdateScreen extends StatefulWidget {
   late Record record;
@@ -32,7 +30,7 @@ class _RecordUpdateScreenState extends State<RecordUpdateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Record Info'),
+        title: const Text('Record Update'),
         centerTitle: true,
       ),
       body: _buildBody(),
@@ -90,6 +88,7 @@ class _RecordUpdateScreenState extends State<RecordUpdateScreen> {
   }
 
   Expanded _buildNoteText() {
+    String? _hintText = (record.note != '') ? record.note : 'Note';
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(left: 16.0),
@@ -100,7 +99,7 @@ class _RecordUpdateScreenState extends State<RecordUpdateScreen> {
           ),
           decoration: InputDecoration(
             //hintText: _hintText,
-            hintText: (record.note != null) ? record.note : 'Note',
+            hintText: _hintText,
             border: InputBorder.none,
           ),
           controller: noteController,
@@ -214,13 +213,8 @@ class _RecordUpdateScreenState extends State<RecordUpdateScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         buildWeightScaleIcon(),
-        Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            _buildWeightPicker(),
-            _buildChevronUpIcon(),
-          ],
-        ),
+        Center(child: _buildWeightPicker()),
+        const Center(),
       ],
     );
   }
@@ -229,13 +223,6 @@ class _RecordUpdateScreenState extends State<RecordUpdateScreen> {
     return const Icon(
       FontAwesomeIcons.weightScale,
       size: 40,
-    );
-  }
-
-  Icon _buildChevronUpIcon() {
-    return const Icon(
-      FontAwesomeIcons.chevronUp,
-      size: 16,
     );
   }
 
@@ -249,8 +236,8 @@ class _RecordUpdateScreenState extends State<RecordUpdateScreen> {
     return DecimalNumberPicker(
       axis: Axis.horizontal,
       //itemCount: 3,
-      //itemWidth: 70,
-      //step: 1,
+      itemHeight: 35,
+      itemWidth: 45,
       minValue: 20,
       maxValue: 180,
       value: _selectedValue,
@@ -262,12 +249,4 @@ class _RecordUpdateScreenState extends State<RecordUpdateScreen> {
       //decoration: _buildWeightPickerDecoration(),
     );
   }
-
-  BoxDecoration _buildWeightPickerDecoration() {
-    return BoxDecoration(
-      borderRadius: BorderRadius.circular(8),
-      border: Border.all(color: Colors.grey),
-    );
-  }
-
 }
